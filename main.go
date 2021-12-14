@@ -1,12 +1,18 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
+func TestHandler(w http.ResponseWriter, r *http.Request) {
+}
+
 func main() {
-	mux := http.NewServeMux()
-	fs := http.FileServer(http.Dir("public"))
-	mux.Handle("/", fs)
-	http.ListenAndServe(":8080", mux)
+	router := mux.NewRouter()
+	router.HandleFunc("/test", TestHandler)
+	http.Handle("/", router)
+	fmt.Println("Everything is set up!")
 }
