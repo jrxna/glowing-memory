@@ -4,30 +4,29 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
+	_ "github.com/gin-gonic/gin"
 )
 
-var router *gin.Engine
+type album struct {
+	ID     string  `json:"id"`
+	Title  string  `json:"title"`
+	Artist string  `json:"artist"`
+	Price  float64 `json:"price"`
+}
+
+var albums = []album{
+	{ID: "1", Title: "Blue Train", Artist: "John Coltrane", Price: 56.99},
+	{ID: "2", Title: "Jeru", Artist: "Gerry Mulligan", Price: 17.99},
+	{ID: "3", Title: "Sarah Vaughan and Clifford Brown", Artist: "Sarah Vaughan", Price: 39.99},
+}
+
+func getAlbums(c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, albums)
+}
 
 func main() {
-
-	// Set the router as the default one provided by Gin
-	router = gin.Default()
-
-	// Process the templates at the start so that they don't have to be loaded
-	// from the disk again. This makes serving HTML pages very fast.
-	router.LoadHTMLGlob("templates/*")
-
-	// Define the route for the index page and display the index.html template
-	// To start with, we'll use an inline route handler. Later on, we'll create
-	// standalone functions that will be used as route handlers.
-	router.GET("/", func(c *gin.Context) {
-
-		fmt.Println("Hello")
-	})
-
-	// Start serving the application
-	router.Run()
-
+	fmt.Println("HELLO")
 }
