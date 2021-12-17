@@ -3,7 +3,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -17,6 +16,13 @@ type album struct {
 	Price  float64 `json:"price"`
 }
 
+func main() {
+	router := gin.Default()
+	router.GET("/albums", getAlbums)
+
+	router.Run("localhost:8080")
+}
+
 var albums = []album{
 	{ID: "1", Title: "Blue Train", Artist: "John Coltrane", Price: 56.99},
 	{ID: "2", Title: "Jeru", Artist: "Gerry Mulligan", Price: 17.99},
@@ -25,8 +31,4 @@ var albums = []album{
 
 func getAlbums(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, albums)
-}
-
-func main() {
-	fmt.Println("HELLO")
 }
